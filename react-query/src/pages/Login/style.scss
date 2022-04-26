@@ -1,0 +1,26 @@
+#login {
+    .wrap-login {
+        position: absolute;
+        width: 100%;
+        top: 50%;
+        left: 5;
+        transform: translate(-50%, -50%);
+        left: 50%;
+        .form {
+            max-width: 600px;
+            margin: 0 auto;
+            bottom: unset;
+            .group-button {
+                button {
+                    text-align: center !important;
+                    display: block !important;
+                    margin-left: auto !important;
+                    margin-right: auto;
+                }
+            }
+            .ant-col.ant-form-item-label > label{
+                width: 120px;
+            }
+        }
+    }
+}
