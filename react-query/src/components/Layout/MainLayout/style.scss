@@ -1,0 +1,24 @@
+#main-layout {
+  .ant-layout.ant-layout-has-sider {
+    height: 100vh;
+  }
+  .wrap-logo {
+    height: 60px;
+    width: 80%;
+    margin: 0 auto;
+    padding: 16px;
+    .logo {
+      width: 100%;
+      background-color: #fff;
+      height: 100%;
+    }
+  }
+  .site-layout .site-layout-background {
+    background: #fff;
+  }
+  .ant-layout-content {
+    margin: 24px 16px 0;
+    padding: 24px;
+    min-height: 280px
+  }
+}

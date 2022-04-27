@@ -1,11 +1,9 @@
-import { FC, ReactElement } from 'react';
+import { FC, ReactElement, useMemo, useCallback } from 'react';
 import { lazy } from '@loadable/component';
 import routesEnum from 'constants/routesEnum';
-import {
-  RouteProps,
-  useRoutes,
-  Navigate
-} from 'react-router-dom';
+import { RouteProps, useRoutes, Navigate } from 'react-router-dom';
+import { getCookie } from 'utils/cookies';
+import User from './User';
 
 const Dashboard = lazy(() => import('./Dashboard'));
 const Login = lazy(() => import('./Login'));
@@ -34,16 +32,27 @@ function privateRoutes(permisson: any): PrivateRouteProps[] {
       path: routesEnum.dashboard,
       element: <Dashboard />,
       isRule: true || permisson
+    },
+    {
+      path: routesEnum.user,
+      element: <User />,
+      isRule: true || permisson
     }
   ];
 }
 
 export const Routes: FC = (): ReactElement => {
+  const token = getCookie('token');
+  // const role = roleClient # check permisson router pravite
+
   const routes = [...openRoutes, ...privateRoutes(true)].map((item) => {
     let element: React.ReactNode | null;
+    const { isOnlyOpenSite, isRule } = item;
 
-    // check router
-    if (item.isRule === false) {
+    // check rule router
+    if ((token && isOnlyOpenSite) || (token && isRule === false)) {
+      element = <Navigate to="/" replace />;
+    } else if (!token && isRule !== undefined) {
       element = <Navigate to="/login" replace />;
     } else {
       element = item.element;
@@ -63,5 +72,5 @@ export const Routes: FC = (): ReactElement => {
     }
   ]);
 
-  return <>{routing}</>;
+  return  <>{routing}</>
 };

@@ -7,10 +7,15 @@ import {
   useQueryClient,
   UseQueryOptions
 } from 'react-query';
-import { QueryFunctionContext } from 'react-query/types/core/types';
+// import { QueryFunctionContext } from 'react-query/types/core/types';
 import { api } from './api';
 
 type QueryKeyT = [string, object | undefined];
+
+interface CacheDetailI {
+  key: string;
+  param: string;
+}
 
 export const fetcher = <T>({ queryKey, pageParam }: any): Promise<T> => {
   const [url, params] = queryKey;
@@ -42,18 +47,43 @@ export const useLoadMore = <T>(url: string | null, params?: object) => {
 export const useFetch = <T>(
   url: string | null,
   params?: object,
-  config?: UseQueryOptions<T, Error, T, QueryKeyT>
+  config?: UseQueryOptions<T, Error, T, QueryKeyT>,
+  cacheDetail?: CacheDetailI
 ) => {
+  const queryClient = useQueryClient();
+
+  if (cacheDetail) {
+    config = {
+      ...config,
+      staleTime: 10000,
+      onSuccess: (data: any) => {
+        if (Array.isArray(data))
+          data.forEach((item: any) => {
+            queryClient.setQueryData(
+              [cacheDetail.key, item[cacheDetail.param]],
+              item
+            );
+          });
+      }
+    };
+  }
   const context = useQuery<T, Error, T, QueryKeyT>(
     [url!, params],
     ({ queryKey }) => fetcher({ queryKey }),
     {
       enabled: !!url,
+
       ...config
     }
   );
 
   return context;
+};
+
+const useFetchProduct = (id: string) => {
+  return useQuery(['product', id], () => {}, {
+    staleTime: 10000
+  });
 };
 
 const useGenericMutation = <T, S>(

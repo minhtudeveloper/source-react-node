@@ -9,26 +9,26 @@ export const api = {
   get: <T>(url: string, params?: object) =>
     axiosClient.get<T>(url, {
       headers: {
-        token
+        authorization: `Bearer ${token}`
       },
       ...params
     }),
   post: <T>(url: string, data: any) =>
     axiosClient.post<T>(url, data, {
       headers: {
-        token
+        authorization: `Bearer ${token}`
       }
     }),
   put: <T>(url: string, data: any) =>
     axiosClient.put<T>(url, data, {
       headers: {
-        token
+        authorization: `Bearer ${token}`
       }
     }),
   delete: <T>(url: string) =>
     axiosClient.delete<T>(url, {
       headers: {
-        token
+        authorization: `Bearer ${token}`
       }
     })
 };

@@ -50,6 +50,19 @@ export class AuthController {
       .catch(requestError(res));
   }
 
+  @ApiBearerAuth()
+  @UseGuards(JwtAccessAuthGuard)
+  @Post('/get-rule-by-token')
+  async getRuleByToken(
+    @Req() req: Request,
+    @Res() res: Response,
+  ) {
+    this.authService
+      .getRuleByToken(req)
+      .then(requestSuccess(res))
+      .catch(requestError(res));
+  }
+
   @Post('/forgot-password')
   async forgotPassword(
     @Body() input: AuthForgotPasswordDto,
@@ -63,10 +76,7 @@ export class AuthController {
 
   @Get('auth/google')
   @UseGuards(GoogleAuthGuard)
-  async googleAuth(@Req() req) {
-    
-  }
-
+  async googleAuth(@Req() req) {}
 
   @Get('auth/google/callback')
   @UseGuards(GoogleAuthGuard)

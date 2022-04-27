@@ -24,7 +24,7 @@ import { RolesGuard } from '@/modules/auth/guards/role.guard';
 import JwtAccessAuthGuard from '@/modules/auth/guards/jwt-access-auth.guard';
 import { UserRole, UserStatus } from './enum';
 @ApiTags('User')
-@Controller('user')
+@Controller('users')
 export class UserController {
   constructor(private readonly userService: UserService) {}
 

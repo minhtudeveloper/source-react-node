@@ -81,6 +81,20 @@ export class AuthService {
     });
   }
 
+  async getRuleByToken(req: Request): Promise<any> {
+    return new Promise(async (rs, rj) => {
+      try {
+        const user: any = req.user;
+        if (user.role) {
+          rs(user.role);
+        }
+        rj();
+      } catch (error) {
+        rj(error);
+      }
+    });
+  }
+
   async forgotPassword(input: AuthForgotPasswordDto): Promise<any> {
     return new Promise(async (rs, rj) => {
       try {
@@ -96,8 +110,8 @@ export class AuthService {
             email: data.email,
           },
         });
-        if(!user){
-          rj('Email does not exist')
+        if (!user) {
+          rj('Email does not exist');
         }
         const tokenToClient = await this.jwtService.sign({
           id: user.id.toString(),

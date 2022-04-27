@@ -1,8 +1,8 @@
+import { Table } from 'antd';
 import { FC, ReactElement } from 'react';
-import MainLayout from 'components/Layout/MainLayout';
 
 const Dashboard: FC = (): ReactElement => {
-  return <MainLayout>Dashboard</MainLayout>;
+  return <Table columns={[]} dataSource={[]} />;
 };
 
 export default Dashboard;

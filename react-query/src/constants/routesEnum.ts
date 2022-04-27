@@ -1,6 +1,7 @@
 enum routesEnum {
   login = '/login',
-  dashboard = '/'
+  dashboard = '/',
+  user = '/users'
 }
 
 export default routesEnum;

@@ -2,14 +2,25 @@ import { FC, ReactElement } from 'react';
 import { Form, Input, Button } from 'antd';
 import { login } from 'api/auth';
 import { loginI } from 'interfaces/auth';
+import { setCookie, removeCookie } from 'utils/cookies';
+import { useNavigate } from 'react-router-dom';
 import './style.scss';
 
 const Login: FC = (): ReactElement => {
+  const navigate = useNavigate();
+
   const onFinish = async (values: loginI) => {
     const { username, password } = values;
-     await login(username, password).then((rs) => {
-      // console.log({ rs });
-    });
+    await login(username, password)
+      .then((rs: any) => {
+        if (rs) {
+          setCookie('token', rs.data.data, { expires: 1 });
+          navigate('/');
+        }
+      })
+      .catch((err) => {
+        console.log({ err });
+      });
   };
 
   const onFinishFailed = (errorInfo: any) => {
