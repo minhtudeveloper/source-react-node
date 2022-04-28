@@ -117,11 +117,11 @@ export const Routes: FC = (): ReactElement => {
                 <route.component {...props} routes={route.routes} key={key} />
               );
             }
-
-            return <Route path={path} render={resultRender} key={key} />;
+            if (resultRender)
+              return <Route path={path} render={resultRender} key={key} />;
           })}
 
-          <Redirect to='/login' />
+          <Redirect to={routesEnum.login} />
         </Switch>
       </Suspense>
     </Router>
