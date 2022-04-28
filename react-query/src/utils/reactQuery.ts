@@ -1,5 +1,5 @@
-import { GetInfinitePagesInterface } from 'interfaces';
 import { AxiosError, AxiosResponse } from 'axios';
+import { GetInfinitePagesInterface } from 'interfaces';
 import {
   useInfiniteQuery,
   useMutation,
@@ -78,12 +78,6 @@ export const useFetch = <T>(
   );
 
   return context;
-};
-
-const useFetchProduct = (id: string) => {
-  return useQuery(['product', id], () => {}, {
-    staleTime: 10000
-  });
 };
 
 const useGenericMutation = <T, S>(

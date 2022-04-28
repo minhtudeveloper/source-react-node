@@ -1,4 +1,4 @@
-import Cookies from 'js-cookie';
+import Cookies from "js-cookie";
 
 export const setCookie = (key: string, value: string, option: object) => {
   return Cookies.set(key, value, option);

@@ -5,5 +5,5 @@ export const pathToUrl = (path: string, params: object = {}) =>
 
 export const apiRoutes = {
   login: '/login',
-  user: '/users'
+  users: '/users'
 };

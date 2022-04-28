@@ -1,0 +1,11 @@
+#header {
+    .header-wrap {
+        .logout {
+            width: 50px;
+            margin-left: auto;
+            &:hover{
+                cursor: pointer;
+            }
+        }
+    }
+}

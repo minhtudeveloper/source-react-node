@@ -1,22 +1,22 @@
-import { FC, ReactElement } from 'react';
-import { Form, Input, Button } from 'antd';
-import { login } from 'api/auth';
-import { loginI } from 'interfaces/auth';
-import { setCookie, removeCookie } from 'utils/cookies';
-import { useNavigate } from 'react-router-dom';
-import './style.scss';
+import { Button, Form, Input } from "antd";
+import { login } from "api/auth";
+import { useAppDispatch } from "hooks";
+import { loginI } from "interfaces/auth";
+import { FC, ReactElement } from "react";
+import { useHistory } from "react-router-dom";
+import { authActions } from "store/ducks/auth/slice";
+import "./style.scss";
 
 const Login: FC = (): ReactElement => {
-  const navigate = useNavigate();
+  const history = useHistory();
+  const dispatch = useAppDispatch();
 
   const onFinish = async (values: loginI) => {
     const { username, password } = values;
     await login(username, password)
       .then((rs: any) => {
-        if (rs) {
-          setCookie('token', rs.data.data, { expires: 1 });
-          navigate('/');
-        }
+        dispatch(authActions.loginSuccess(rs.data.data));
+        history.replace("/");
       })
       .catch((err) => {
         console.log({ err });
@@ -24,41 +24,41 @@ const Login: FC = (): ReactElement => {
   };
 
   const onFinishFailed = (errorInfo: any) => {
-    console.log('Failed:', errorInfo);
+    console.log("Failed:", errorInfo);
   };
   return (
-    <div id="login">
-      <div className="wrap-login">
-        <div className="form">
+    <div id='login'>
+      <div className='wrap-login'>
+        <div className='form'>
           <Form
-            name="basic"
+            name='basic'
             initialValues={{ remember: true }}
             onFinish={onFinish}
             onFinishFailed={onFinishFailed}
-            autoComplete="off"
+            autoComplete='off'
           >
             <Form.Item
-              label="Username"
-              name="username"
+              label='Username'
+              name='username'
               rules={[
-                { required: true, message: 'Please input your username!' }
+                { required: true, message: "Please input your username!" },
               ]}
             >
               <Input />
             </Form.Item>
 
             <Form.Item
-              label="Password"
-              name="password"
+              label='Password'
+              name='password'
               rules={[
-                { required: true, message: 'Please input your password!' }
+                { required: true, message: "Please input your password!" },
               ]}
             >
               <Input.Password />
             </Form.Item>
 
-            <Form.Item className="group-button">
-              <Button type="primary" htmlType="submit">
+            <Form.Item className='group-button'>
+              <Button type='primary' htmlType='submit'>
                 Submit
               </Button>
             </Form.Item>

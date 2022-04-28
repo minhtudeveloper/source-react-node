@@ -1,34 +1,33 @@
-import { FC, ReactElement, useCallback, useMemo, useState } from 'react';
-import MainLayout from 'components/Layout/MainLayout';
-import { Table } from 'antd';
-import MainHeader from 'commons/MainHeader';
-import MainContent from 'commons/MainContent';
-import { useGetUsers } from 'api/user';
+import { Table } from "antd";
+import { useGetUsers } from "api/user";
+import MainContent from "commons/MainContent";
+import MainHeader from "commons/MainHeader";
+import MainLayout from "components/Layout/MainLayout";
+import { FC, ReactElement, useMemo } from "react";
 
 const User: FC = (): ReactElement => {
   const { data, isLoading, error } = useGetUsers();
-  const [a, setA] = useState('a');
   const column = [
     {
-      title: 'Email',
-      dataIndex: 'email',
-      key: 'email'
+      title: "Email",
+      dataIndex: "email",
+      key: "email",
     },
     {
-      title: 'Full Name',
-      dataIndex: 'full_name',
-      key: 'full_name'
+      title: "Full Name",
+      dataIndex: "full_name",
+      key: "full_name",
     },
     {
-      title: 'Role',
-      dataIndex: 'role',
-      key: 'role'
+      title: "Role",
+      dataIndex: "role",
+      key: "role",
     },
     {
-      title: 'Status',
-      dataIndex: 'status',
-      key: 'status'
-    }
+      title: "Status",
+      dataIndex: "status",
+      key: "status",
+    },
   ];
 
   const dataSource =
@@ -40,19 +39,17 @@ const User: FC = (): ReactElement => {
   return useMemo(
     () => (
       <MainLayout>
-        <MainHeader title="User" />
-        {a}
+        <MainHeader title='User' />
         <MainContent>
-          <div className="wrap-content">
+          <div className='wrap-content'>
             <Table
-              className="on-row"
+              className='on-row'
               columns={column}
               onRow={(record: any) => {
                 return {
                   onClick: () => {
-                    setA(record.full_name);
                     console.log({ record });
-                  }
+                  },
                 };
               }}
               dataSource={dataSource}
@@ -61,7 +58,7 @@ const User: FC = (): ReactElement => {
         </MainContent>
       </MainLayout>
     ),
-    [data,a]
+    [data],
   );
 };
 

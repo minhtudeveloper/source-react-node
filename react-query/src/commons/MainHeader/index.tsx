@@ -1,15 +1,15 @@
-import { FC, ReactElement } from 'react';
-import { PageHeader } from 'antd';
-import './style.scss'
+import { FC, ReactElement } from "react";
+import { PageHeader } from "antd";
+import "./style.scss";
 
 interface MainHeaderI {
-  title: string | '';
+  title: string | "";
 }
 
-const MainHeader = ({ title }: MainHeaderI): ReactElement => {
+const MainHeader: FC<any> = ({ title }: MainHeaderI): ReactElement => {
   return (
-    <div id="main-header">
-      <PageHeader className="site-page-header " title={title} />
+    <div id='main-header'>
+      <PageHeader className='site-page-header ' title={title} />
     </div>
   );
 };

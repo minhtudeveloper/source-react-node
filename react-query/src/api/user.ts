@@ -3,7 +3,7 @@ import { apiRoutes } from 'utils/routes';
 
 export const useGetUsers = () => {
   const context: any = useFetch<{ user: string }>(
-    apiRoutes.user,
+    apiRoutes.users,
     undefined,
     {
       retry: 3

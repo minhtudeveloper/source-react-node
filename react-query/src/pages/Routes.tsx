@@ -1,12 +1,23 @@
-import { FC, ReactElement, useMemo, useCallback } from 'react';
-import { lazy } from '@loadable/component';
-import routesEnum from 'constants/routesEnum';
-import { RouteProps, useRoutes, Navigate } from 'react-router-dom';
-import { getCookie } from 'utils/cookies';
-import User from './User';
+/* eslint-disable react-hooks/exhaustive-deps */
+import { lazy } from "@loadable/component";
+import { LoadingFullpage } from "components/Loading";
+import routesEnum from "constants/routesEnum";
+import { useAppSelector } from "hooks";
+import { FC, ReactElement, Suspense, useEffect, useState } from "react";
+import {
+  BrowserRouter as Router,
+  Redirect,
+  Route,
+  RouteProps,
+  Switch,
+} from "react-router-dom";
+import { RootState } from "store";
+import { getCookie } from "utils/cookies";
 
-const Dashboard = lazy(() => import('./Dashboard'));
-const Login = lazy(() => import('./Login'));
+const Dashboard = lazy(() => import("pages/Dashboard"));
+const Login = lazy(() => import("pages/Login"));
+
+const User = lazy(() => import("pages/User"));
 
 interface PrivateRouteProps extends RouteProps {
   isRule: boolean;
@@ -18,59 +29,101 @@ interface OpenRouteProps extends RouteProps {
   isOnlyOpenSite: boolean;
 }
 
-const openRoutes: OpenRouteProps[] = [
-  {
-    path: routesEnum.login,
-    element: <Login />,
-    isOnlyOpenSite: true
-  }
-];
-
 function privateRoutes(permisson: any): PrivateRouteProps[] {
   return [
     {
-      path: routesEnum.dashboard,
-      element: <Dashboard />,
-      isRule: true || permisson
+      exact: true,
+      path: routesEnum.user,
+      component: User,
+      isRule: true,
     },
     {
-      path: routesEnum.user,
-      element: <User />,
-      isRule: true || permisson
-    }
+      path: routesEnum.dashboard,
+      exact: true,
+      component: Dashboard,
+      isRule: true,
+    },
   ];
 }
+const openRoutes: OpenRouteProps[] = [
+  {
+    exact: true,
+    path: routesEnum.login,
+    component: Login,
+    isOnlyOpenSite: true,
+  },
+];
 
 export const Routes: FC = (): ReactElement => {
-  const token = getCookie('token');
-  // const role = roleClient # check permisson router pravite
+  const isToggle = useAppSelector((state: RootState) => state.auth.isToggle);
 
-  const routes = [...openRoutes, ...privateRoutes(true)].map((item) => {
-    let element: React.ReactNode | null;
-    const { isOnlyOpenSite, isRule } = item;
+  const tokenClient = getCookie("token");
 
-    // check rule router
-    if ((token && isOnlyOpenSite) || (token && isRule === false)) {
-      element = <Navigate to="/" replace />;
-    } else if (!token && isRule !== undefined) {
-      element = <Navigate to="/login" replace />;
-    } else {
-      element = item.element;
-    }
+  const [token, settoken] = useState(tokenClient);
 
-    return {
-      path: item.path,
-      element: element
-    };
-  });
+  useEffect(() => {
+    settoken(tokenClient);
+  }, [isToggle]);
 
-  const routing = useRoutes([
-    ...routes,
-    {
-      path: '*',
-      element: <Navigate to="/login" replace />
-    }
-  ]);
+  const routes = [...openRoutes, ...privateRoutes(true)];
 
-  return  <>{routing}</>
+  return (
+    <Router>
+      <Suspense fallback={<LoadingFullpage />}>
+        <Switch>
+          {routes.map((route: any, key: number) => {
+            const { path, isRule, isOnlyOpenSite } = route;
+
+            let resultRender: any;
+
+            if (token && isRule !== undefined) {
+              if (isRule) {
+                resultRender = (props: any) => (
+                  <route.component {...props} routes={route.routes} key={key} />
+                );
+              } else {
+                resultRender = (props: any) => (
+                  <Redirect
+                    key={key}
+                    to={{
+                      pathname: routesEnum.dashboard,
+                      state: { from: props.location },
+                    }}
+                  />
+                );
+              }
+            } else if (token && isOnlyOpenSite) {
+              resultRender = (props: any) => (
+                <Redirect
+                  key={key}
+                  to={{
+                    pathname: routesEnum.dashboard,
+                    state: { from: props.location },
+                  }}
+                />
+              );
+            } else if (!token && isRule !== undefined) {
+              resultRender = (props: any) => (
+                <Redirect
+                  key={key}
+                  to={{
+                    pathname: routesEnum.login,
+                    state: { from: props.location },
+                  }}
+                />
+              );
+            } else {
+              resultRender = (props: any) => (
+                <route.component {...props} routes={route.routes} key={key} />
+              );
+            }
+
+            return <Route path={path} render={resultRender} key={key} />;
+          })}
+
+          <Redirect to='/login' />
+        </Switch>
+      </Suspense>
+    </Router>
+  );
 };
