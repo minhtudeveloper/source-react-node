@@ -1,0 +1,32 @@
+version: "3.8"
+
+services:
+
+  db:
+    image: mongo
+    ports:
+      - "27018:27017"
+    restart: unless-stopped
+  api:
+    # image: learning-docker
+    build:
+      context: ./back-end
+      dockerfile: Dockerfile
+    ports:
+      - "3003:3000"
+    environment:
+      NODE_ENV: development
+    restart: always
+  app:
+    # image: learning-docker
+    build:
+      context: ./react-query
+      dockerfile: Dockerfile
+    ports:
+      - "8083:8080"
+    volumes:
+      - /app/node_modules
+      - ./react-query:/app
+    environment:
+      NODE_ENV: development
+    restart: always
