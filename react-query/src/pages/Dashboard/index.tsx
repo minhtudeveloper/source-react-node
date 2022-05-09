@@ -1,11 +1,11 @@
 import { FC, ReactElement } from "react";
-import MainHeader from "commons/MainHeader";
-import MainLayout from "Layout/MainLayout";
+import MainLayout from "layout/MainLayout";
+import MainHeader from "components/MainHeader";
 
 const Dashboard: FC = (): ReactElement => {
   return (
     <MainLayout>
-      <MainHeader title='DashBorad' />
+      <MainHeader title='Dashboard' />
     </MainLayout>
   );
 };

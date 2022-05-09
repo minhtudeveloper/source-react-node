@@ -1,6 +1,6 @@
 import { Button, Form, Input, notification } from "antd";
 import { login } from "api/auth";
-import routesEnum from "constants/routesEnum";
+import routesEnum from "enum/routes.enum";
 import { useAppDispatch } from "hooks";
 import { loginI } from "interfaces/auth";
 import { FC, ReactElement } from "react";

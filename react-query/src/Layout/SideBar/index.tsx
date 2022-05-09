@@ -8,7 +8,7 @@ import {
 } from '@ant-design/icons';
 import React from 'react';
 import './style.scss';
-import routesEnum from 'constants/routesEnum';
+import routesEnum from 'enum/routes.enum';
 import SubMenu from 'antd/lib/menu/SubMenu';
 import { Link } from 'react-router-dom';
 

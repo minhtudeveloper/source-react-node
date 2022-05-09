@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { lazy } from "@loadable/component";
-import { LoadingFullpage } from "commons/Loading";
-import routesEnum from "constants/routesEnum";
+import { LoadingFullpage } from "components/Loading";
+import routesEnum from "enum/routes.enum";
 import { useAppSelector } from "hooks";
 import { FC, ReactElement, Suspense, useEffect, useState } from "react";
 import {

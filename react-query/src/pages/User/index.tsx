@@ -1,11 +1,12 @@
 import { Table } from "antd";
 import { useGetUsers } from "api/user";
-import MainContent from "Layout/MainContent";
-import MainHeader from "commons/MainHeader";
+import MainContent from "layout/MainContent";
 import { FC, ReactElement, useMemo } from "react";
-import MainLayout from "Layout/MainLayout";
+import MainLayout from "layout/MainLayout";
+import MainHeader from "components/MainHeader";
 
 const User: FC = (): ReactElement => {
+  
   const { data } = useGetUsers();
 
   const column = [
