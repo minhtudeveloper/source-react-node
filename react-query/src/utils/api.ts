@@ -1,5 +1,4 @@
 import axiosClient from "./axiosClient";
-import { getCookie } from "./cookies";
 
 export const api = {
   get: <T>(url: string, params?: object) =>
