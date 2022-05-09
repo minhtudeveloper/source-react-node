@@ -1,4 +1,4 @@
-import { Button, Form, Input } from "antd";
+import { Button, Form, Input, notification } from "antd";
 import { login } from "api/auth";
 import routesEnum from "constants/routesEnum";
 import { useAppDispatch } from "hooks";
@@ -20,7 +20,10 @@ const Login: FC = (): ReactElement => {
         history.replace(routesEnum.dashboard);
       })
       .catch((err) => {
-        console.log({ err });
+        notification.error({
+          message: "Wrong",
+          description: "Email or pass word is wrong! ",
+        });
       });
   };
 

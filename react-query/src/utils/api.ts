@@ -1,34 +1,12 @@
-import axiosClient from './axiosClient';
-import { getCookie } from './cookies';
-
-type TypeToken = string;
-
-const token: TypeToken = getCookie('token') || '';
+import axiosClient from "./axiosClient";
+import { getCookie } from "./cookies";
 
 export const api = {
   get: <T>(url: string, params?: object) =>
     axiosClient.get<T>(url, {
-      headers: {
-        authorization: `Bearer ${token}`
-      },
-      ...params
+      ...params,
     }),
-  post: <T>(url: string, data: any) =>
-    axiosClient.post<T>(url, data, {
-      headers: {
-        authorization: `Bearer ${token}`
-      }
-    }),
-  put: <T>(url: string, data: any) =>
-    axiosClient.put<T>(url, data, {
-      headers: {
-        authorization: `Bearer ${token}`
-      }
-    }),
-  delete: <T>(url: string) =>
-    axiosClient.delete<T>(url, {
-      headers: {
-        authorization: `Bearer ${token}`
-      }
-    })
+  post: <T>(url: string, data: any) => axiosClient.post<T>(url, data, {}),
+  put: <T>(url: string, data: any) => axiosClient.put<T>(url, data, {}),
+  delete: <T>(url: string) => axiosClient.delete<T>(url, {}),
 };
