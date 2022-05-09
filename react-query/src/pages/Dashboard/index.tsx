@@ -1,6 +1,6 @@
 import { FC, ReactElement } from "react";
-import MainLayout from "components/Layout/MainLayout";
 import MainHeader from "commons/MainHeader";
+import MainLayout from "Layout/MainLayout";
 
 const Dashboard: FC = (): ReactElement => {
   return (

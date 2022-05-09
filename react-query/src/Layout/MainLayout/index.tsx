@@ -1,6 +1,6 @@
 import { Layout } from "antd";
 import { Footer } from "antd/lib/layout/layout";
-import SideBar from "components/Layout/SideBar";
+import SideBar from "Layout/SideBar";
 import { FC, ReactElement } from "react";
 import MainHeader from "../MainHeader";
 import "./style.scss";

@@ -1,5 +1,5 @@
 import { AxiosError, AxiosResponse } from 'axios';
-import { GetInfinitePagesInterface } from 'interfaces';
+import { GetInfinitePagesInterface } from 'interfaces/initPage';
 import {
   useInfiniteQuery,
   useMutation,

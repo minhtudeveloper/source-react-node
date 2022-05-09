@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { lazy } from "@loadable/component";
-import { LoadingFullpage } from "components/Loading";
+import { LoadingFullpage } from "commons/Loading";
 import routesEnum from "constants/routesEnum";
 import { useAppSelector } from "hooks";
 import { FC, ReactElement, Suspense, useEffect, useState } from "react";
@@ -55,7 +55,9 @@ const openRoutes: OpenRouteProps[] = [
 ];
 
 export const Routes: FC = (): ReactElement => {
-  const isToggleToken = useAppSelector((state: RootState) => state.auth.isToggleToken);
+  const isToggleToken = useAppSelector(
+    (state: RootState) => state.auth.isToggleToken,
+  );
 
   const tokenClient = getCookie("token");
 
@@ -87,8 +89,7 @@ export const Routes: FC = (): ReactElement => {
                 <route.component {...props} key={key} />
               );
             }
-            if (resultRender)
-              return <Route path={path} render={resultRender} key={key} />;
+            return <Route path={path} render={resultRender} key={key} />;
           })}
 
           {privateRoutes(true).map((route: any, key: number) => {
@@ -122,8 +123,7 @@ export const Routes: FC = (): ReactElement => {
                 />
               );
             }
-            if (resultRender)
-              return <Route path={path} render={resultRender} key={key} />;
+            return <Route path={path} render={resultRender} key={key} />;
           })}
 
           {token ? (

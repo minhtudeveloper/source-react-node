@@ -1,6 +1,10 @@
 import Cookies from "js-cookie";
 
-export const setCookie = (key: string, value: string, option: object) => {
+export const setCookie = (
+  key: string,
+  value: string,
+  option: object | undefined = { expires: 1 },
+) => {
   return Cookies.set(key, value, option);
 };
 

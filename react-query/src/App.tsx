@@ -5,7 +5,7 @@ import { PersistGate } from "redux-persist/lib/integration/react";
 import { Routes } from "pages/Routes";
 import { QueryClient, QueryClientProvider } from "react-query";
 import "antd/dist/antd.css";
-import { LoadingFullpage } from "components/Loading";
+import { LoadingFullpage } from "commons/Loading";
 import { ConfigProvider } from "antd";
 import locale from "antd/lib/locale/ja_JP";
 

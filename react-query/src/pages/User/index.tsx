@@ -1,12 +1,13 @@
 import { Table } from "antd";
 import { useGetUsers } from "api/user";
-import MainContent from "commons/MainContent";
+import MainContent from "Layout/MainContent";
 import MainHeader from "commons/MainHeader";
-import MainLayout from "components/Layout/MainLayout";
 import { FC, ReactElement, useMemo } from "react";
+import MainLayout from "Layout/MainLayout";
 
 const User: FC = (): ReactElement => {
-  const { data, isLoading, error } = useGetUsers();
+  const { data } = useGetUsers();
+
   const column = [
     {
       title: "Email",
@@ -30,12 +31,6 @@ const User: FC = (): ReactElement => {
     },
   ];
 
-  const dataSource =
-    !isLoading &&
-    data.map((item: any, key: string) => {
-      return { ...item, key };
-    });
-
   return useMemo(
     () => (
       <MainLayout>
@@ -43,6 +38,7 @@ const User: FC = (): ReactElement => {
         <MainContent>
           <div className='wrap-content'>
             <Table
+              rowKey='id'
               className='on-row'
               columns={column}
               onRow={(record: any) => {
@@ -52,7 +48,7 @@ const User: FC = (): ReactElement => {
                   },
                 };
               }}
-              dataSource={dataSource}
+              dataSource={data}
             />
           </div>
         </MainContent>

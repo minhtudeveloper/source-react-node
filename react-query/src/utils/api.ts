@@ -1,9 +1,9 @@
-import Cookies from 'js-cookie';
 import axiosClient from './axiosClient';
+import { getCookie } from './cookies';
 
 type TypeToken = string;
 
-const token: TypeToken = Cookies.get('token') || '';
+const token: TypeToken = getCookie('token') || '';
 
 export const api = {
   get: <T>(url: string, params?: object) =>
