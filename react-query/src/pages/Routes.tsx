@@ -55,7 +55,7 @@ const openRoutes: OpenRouteProps[] = [
 ];
 
 export const Routes: FC = (): ReactElement => {
-  const isToggle = useAppSelector((state: RootState) => state.auth.isToggle);
+  const isToggleToken = useAppSelector((state: RootState) => state.auth.isToggleToken);
 
   const tokenClient = getCookie("token");
 
@@ -63,36 +63,16 @@ export const Routes: FC = (): ReactElement => {
 
   useEffect(() => {
     settoken(tokenClient);
-  }, [isToggle]);
-
-  const routes = [...openRoutes, ...privateRoutes(true)];
+  }, [isToggleToken]);
 
   return (
     <Router>
       <Suspense fallback={<LoadingFullpage />}>
         <Switch>
-          {routes.map((route: any, key: number) => {
-            const { path, isRule, isOnlyOpenSite } = route;
-
+          {openRoutes.map((route: any, key: number) => {
             let resultRender: any;
-
-            if (token && isRule !== undefined) {
-              if (isRule) {
-                resultRender = (props: any) => (
-                  <route.component {...props} routes={route.routes} key={key} />
-                );
-              } else {
-                resultRender = (props: any) => (
-                  <Redirect
-                    key={key}
-                    to={{
-                      pathname: routesEnum.dashboard,
-                      state: { from: props.location },
-                    }}
-                  />
-                );
-              }
-            } else if (token && isOnlyOpenSite) {
+            const { path, isOnlyOpenSite } = route;
+            if (token && isOnlyOpenSite) {
               resultRender = (props: any) => (
                 <Redirect
                   key={key}
@@ -102,7 +82,36 @@ export const Routes: FC = (): ReactElement => {
                   }}
                 />
               );
-            } else if (!token && isRule !== undefined) {
+            } else {
+              resultRender = (props: any) => (
+                <route.component {...props} key={key} />
+              );
+            }
+            if (resultRender)
+              return <Route path={path} render={resultRender} key={key} />;
+          })}
+
+          {privateRoutes(true).map((route: any, key: number) => {
+            let resultRender: any;
+            const { path, isRule } = route;
+
+            if (token) {
+              if (!isRule) {
+                resultRender = (props: any) => (
+                  <Redirect
+                    key={key}
+                    to={{
+                      pathname: routesEnum.dashboard,
+                      state: { from: props.location },
+                    }}
+                  />
+                );
+              } else {
+                resultRender = (props: any) => (
+                  <route.component {...props} key={key} />
+                );
+              }
+            } else {
               resultRender = (props: any) => (
                 <Redirect
                   key={key}
@@ -112,16 +121,16 @@ export const Routes: FC = (): ReactElement => {
                   }}
                 />
               );
-            } else {
-              resultRender = (props: any) => (
-                <route.component {...props} routes={route.routes} key={key} />
-              );
             }
             if (resultRender)
               return <Route path={path} render={resultRender} key={key} />;
           })}
 
-          <Redirect to={routesEnum.login} />
+          {token ? (
+            <Redirect to={routesEnum.dashboard} />
+          ) : (
+            <Redirect to={routesEnum.login} />
+          )}
         </Switch>
       </Suspense>
     </Router>

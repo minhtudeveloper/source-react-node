@@ -1,5 +1,6 @@
 import { Button, Form, Input } from "antd";
 import { login } from "api/auth";
+import routesEnum from "constants/routesEnum";
 import { useAppDispatch } from "hooks";
 import { loginI } from "interfaces/auth";
 import { FC, ReactElement } from "react";
@@ -16,7 +17,7 @@ const Login: FC = (): ReactElement => {
     await login(username, password)
       .then((rs: any) => {
         dispatch(authActions.loginSuccess(rs.data.data));
-        history.replace("/");
+        history.replace(routesEnum.dashboard);
       })
       .catch((err) => {
         console.log({ err });

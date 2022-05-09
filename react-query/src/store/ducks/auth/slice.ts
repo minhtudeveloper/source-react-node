@@ -13,7 +13,7 @@ export interface User {
 }
 
 export interface AuthState {
-  isToggle: boolean;
+  isToggleToken: boolean;
   isLoggedIn: boolean;
   loading?: boolean;
   accessToken?: boolean;
@@ -21,7 +21,7 @@ export interface AuthState {
 }
 
 const initialState: AuthState = {
-  isToggle: false,
+  isToggleToken: false,
   isLoggedIn: false,
   loading: false,
   accessToken: undefined,
@@ -38,7 +38,7 @@ const authSlice = createSlice({
     },
     loginSuccess(state, action: Action) {
       setCookie("token", action.payload, { expires: 1 });
-      state.isToggle = !state.isToggle;
+      state.isToggleToken = !state.isToggleToken;
       state.loading = false;
       return state;
     },
@@ -47,7 +47,7 @@ const authSlice = createSlice({
       return state;
     },
     logout(state) {
-      state.isToggle = !state.isToggle;
+      state.isToggleToken = !state.isToggleToken;
       removeCookie("token");
       state.isLoggedIn = false;
       return state;
