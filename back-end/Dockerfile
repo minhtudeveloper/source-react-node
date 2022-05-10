@@ -1,14 +1,17 @@
 FROM node:14.18.1
 
-WORKDIR /source-node
+WORKDIR /source-react
 
-COPY ["package.json", "yarn.lock", "./"]
+ADD ["package.json", "package-lock.json",  "./"]
+RUN npm install
 
-RUN yarn
+ADD nest-cli.json ./nest-cli.json
+ADD .env ./.env
+ADD tsconfig.json ./tsconfig.json
+ADD tsconfig.build.json ./tsconfig.build.json
+COPY src ./src
 
-COPY ./ ./
 
-CMD yarn start
-
+CMD npm start
 
 
