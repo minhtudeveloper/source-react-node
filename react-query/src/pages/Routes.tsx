@@ -20,12 +20,12 @@ const Login = lazy(() => import("pages/Login"));
 const User = lazy(() => import("pages/User"));
 
 interface PrivateRouteProps extends RouteProps {
-  isRule: boolean;
+  isRole: boolean;
   isOnlyOpenSite?: boolean;
 }
 
 interface OpenRouteProps extends RouteProps {
-  isRule?: boolean;
+  isRole?: boolean;
   isOnlyOpenSite: boolean;
 }
 
@@ -35,13 +35,13 @@ function privateRoutes(permisson: any): PrivateRouteProps[] {
       exact: true,
       path: routesEnum.user,
       component: User,
-      isRule: true,
+      isRole: true,
     },
     {
       path: routesEnum.dashboard,
       exact: true,
       component: Dashboard,
-      isRule: true,
+      isRole: true,
     },
   ];
 }
@@ -94,10 +94,10 @@ export const Routes: FC = (): ReactElement => {
 
           {privateRoutes(true).map((route: any, key: number) => {
             let resultRender: any;
-            const { path, isRule } = route;
+            const { path, isRole } = route;
 
             if (token) {
-              if (!isRule) {
+              if (!isRole) {
                 resultRender = (props: any) => (
                   <Redirect
                     key={key}
